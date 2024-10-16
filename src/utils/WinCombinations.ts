@@ -14,7 +14,7 @@ export const getWinningCombinations = (size: number) => {
   for (let row = 0; row < size; row++) {
     const colCombination = [];
     for (let col = 0; col < size; col++) {
-      colCombination.push(row * size + col);
+      colCombination.push(col * size + row);
     }
     combinations.push(colCombination);
   }

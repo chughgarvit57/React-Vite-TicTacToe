@@ -62,10 +62,9 @@ const Board: FC<BoardProps> = ({ size }) => {
   //   }
   //   return null;
   // };
-  
 
   // Function to restart the game
-  
+
   const calculateWinner = (squares: string[]) => {
     for (const combination of winningCombinations) {
       if (
@@ -77,7 +76,7 @@ const Board: FC<BoardProps> = ({ size }) => {
       }
     }
     return null;
-  }
+  };
 
   const restartGame = () => {
     setSquares(Array(9).fill(""));
