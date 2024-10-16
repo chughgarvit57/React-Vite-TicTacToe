@@ -3,3 +3,7 @@ export interface SquareProps {
     onClick: () => void;
     isGameOver: string | boolean;
 }
+
+export interface BoardProps {
+    size: number;
+}

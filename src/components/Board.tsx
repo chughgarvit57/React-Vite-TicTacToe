@@ -1,10 +1,14 @@
 import { FC, useState } from "react";
 import styles from "../styles/Board.module.css";
 import Square from "./Square";
+import { BoardProps } from "../model/index.ts";
+import { getWinningCombinations } from "../utils/WinCombinations.ts";
 
-const Board: FC = () => {
+const Board: FC<BoardProps> = ({ size }) => {
+  const boardSize = size;
+  const totalSquares = boardSize * boardSize;
   // State to keep track of current game state (array of squares)
-  const [squares, setSquares] = useState(Array(9).fill(""));
+  const [squares, setSquares] = useState(Array(totalSquares).fill(""));
 
   // State to keep track of current player's turn (X or O)
   const [isXNext, setIsXNext] = useState(true);
@@ -20,7 +24,7 @@ const Board: FC = () => {
     const newSquares = [...squares];
     newSquares[index] = isXNext ? "X" : "O";
     setSquares(newSquares);
-    setIsXNext((isXNext) => !isXNext);
+    setIsXNext((prev) => !prev);
     calculateWinner(newSquares);
   };
 
@@ -35,30 +39,46 @@ const Board: FC = () => {
     setIsXNext((isXNext) => !isXNext);
   };
 
+  // Array that will hold my winning combinations
+  const winningCombinations = getWinningCombinations(boardSize);
+  //   const winningCombinations = [
+  //     [0, 1, 2],
+  //     [3, 4, 5],
+  //     [6, 7, 8],
+  //     [0, 3, 6],
+  //     [1, 4, 7],
+  //     [2, 5, 8],
+  //     [0, 4, 8],
+  //     [2, 4, 6],
+  //   ];
+  //   for (const [a, b, c] of winningCombinations) {
+  //     if (
+  //       squares[a] &&
+  //       squares[a] === squares[b] &&
+  //       squares[a] === squares[c]
+  //     ) {
+  //       return squares[a];
+  //     }
+  //   }
+  //   return null;
+  // };
+  
+
+  // Function to restart the game
+  
   const calculateWinner = (squares: string[]) => {
-    const winningCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (const [a, b, c] of winningCombinations) {
+    for (const combination of winningCombinations) {
       if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[a] === squares[c]
+        squares[combination[0]] &&
+        squares[combination[0]] === squares[combination[1]] &&
+        squares[combination[0]] === squares[combination[2]]
       ) {
-        return squares[a];
+        return squares[combination[0]];
       }
     }
     return null;
-  };
+  }
 
-  // Function to restart the game
   const restartGame = () => {
     setSquares(Array(9).fill(""));
     setIsXNext(true);

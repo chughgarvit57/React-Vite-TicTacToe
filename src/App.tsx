@@ -6,7 +6,7 @@ const App: FC = () => {
   return (
     <div className="app">
       <h1 id="title">Tic Tic Toe</h1>
-      <Board />
+      <Board size={3} />
     </div>
   );
 }
